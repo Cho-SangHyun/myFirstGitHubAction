@@ -34,7 +34,15 @@ jobs: # 빌드서버를 제공. job 하나하나가 빌드서버 하나하나임
       run: |
         echo "OS: ${{matrix.os}}"
         echo "Node version: ${{matrix.nodejs}}"
+    
+    - name: Say Hello World 2 - ${{matrix.os}}
+      if: matrix.os == 'window-latest' # os가 윈도우일때만 이 스텝을 돌린다!
+      shell: bash
+      run: |
+        echo "step 2 - OS: ${{matrix.os}}"
+        echo "step 2 - Node version: ${{matrix.nodejs}}"
 
 
 # echo "GLOBAL: $GLOBAL_LEVEL" : 배시쉘 문법
 # echo "JOB 1: ${{env.JOB_LEVEL_1}}" : 깃허브 액션 문법
+# 매트릭스를 여러 개 줌으로써 서로 다른 환경에서의 워크플로우들을 모조리 싹 가능
