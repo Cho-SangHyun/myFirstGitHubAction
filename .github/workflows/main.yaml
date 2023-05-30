@@ -1,16 +1,4 @@
-name: 'SWM'
-
-# on: # ['push', 'pull_request'] 등으로도 작성 가능
-#   push:
-#     branches: # 특정 브랜치에 푸시가 일어났을 때만 한다
-#       - main
-#       - 'feature/*'
-#     paths: # 특정 경로에 푸시가 일어났을 때만 한다
-#       - 'src/*'
-#       - 'test/*'
-#   pull_request:
-#     branches:
-#       - main  
+name: 'SWM'  
 
 on: push
 
@@ -24,52 +12,18 @@ jobs: # 빌드서버를 제공. job 하나하나가 빌드서버 하나하나임
     runs-on: 'ubuntu-latest'
 
     steps:
-    - name: Say Hello World 1
+    - name: Send a message to Webex Space
       shell: bash
       run: |
-        echo "Hello World"
+        curl -X POST https://webexapis.com/v1/messages \
+          -H "Authorization: Barear ${{secrets.WEBEX_TOKEN}}" \
+          -H "Content-type: application/json" \
+          -d "{
+            'roomId': ${{secrents.WEBEX_ROOD_ID}},
+            'text': '메시지 from GITHUB ACTION'
+          }"
   
-  deploy-dev:
-    name: 'Deploy To Dev'
 
-    needs:
-      - build-test
-
-    runs-on: 'ubuntu-latest'
-
-    steps:
-    - name: Say Hello World 1
-      shell: bash
-      run: |
-        echo "Hello World"
-
-  deploy-staging:
-    name: 'Deploy To Staging'
-
-    needs:
-      - deploy-dev
-
-    runs-on: 'ubuntu-latest'
-
-    steps:
-    - name: Say Hello World 1
-      shell: bash
-      run: |
-        echo "Hello World"
-
-  deploy-prod:
-    name: 'Deploy To Prod'
-
-    needs:
-      - deploy-staging
-
-    runs-on: 'ubuntu-latest'
-
-    steps:
-    - name: Say Hello World 1
-      shell: bash
-      run: |
-        echo "Hello World"
 
 
 # 잡은 병렬적 실행, 스텝은 순차적 실행. 스텝은 앞 스텝이 실패하면 다음 스텝도 실행 X
@@ -88,3 +42,16 @@ jobs: # 빌드서버를 제공. job 하나하나가 빌드서버 하나하나임
 # 잡들은 기본적으로 병렬 실행, but needs를 줌으로써 순서를 줄 수 있음
 # needs:
 #  - deploy-dev -> deploy-dev라는 잡이 끝나야 난 돌 수 있다.라는 뜻
+
+
+# on: # ['push', 'pull_request'] 등으로도 작성 가능
+#   push:
+#     branches: # 특정 브랜치에 푸시가 일어났을 때만 한다
+#       - main
+#       - 'feature/*'
+#     paths: # 특정 경로에 푸시가 일어났을 때만 한다
+#       - 'src/*'
+#       - 'test/*'
+#   pull_request:
+#     branches:
+#       - main
