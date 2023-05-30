@@ -18,31 +18,73 @@ env:
   GLOBAL_LEVEL: "GLOBAL VALUE"
 
 jobs: # 빌드서버를 제공. job 하나하나가 빌드서버 하나하나임. 디폴트는 순차실행이 아니라 병렬적 실행
-  first-job:
-    name: 'First Job'
+  build-test:
+    name: 'Build & Test'
 
-    strategy: # 나는 운영체제를 이 3가지를 돌리고 싶다
-      matrix:
-        os: ['ubuntu-latest', 'windows-latest', 'macos-latest']
-        nodejs: ['16',  '18']
+    runs-on: 'ubuntu-latest'
 
-    runs-on: ${{matrix.os}}
-
-    steps: # 스텝들은 순서대로 실행됨
-    - name: Say Hello World 1 - ${{matrix.os}}
+    steps:
+    - name: Say Hello World 1
       shell: bash
       run: |
-        echo "OS: ${{matrix.os}}"
-        echo "Node version: ${{matrix.nodejs}}"
-    
-    - name: Say Hello World 2 - ${{matrix.os}}
-      if: matrix.os == 'windows-latest' # os가 윈도우일때만 이 스텝을 돌린다!
+        echo "Hello World"
+  
+  deploy-dev:
+    name: 'Deploy To Dev'
+
+    needs:
+      - build-test
+
+    runs-on: 'ubuntu-latest'
+
+    steps:
+    - name: Say Hello World 1
       shell: bash
       run: |
-        echo "step 2 - OS: ${{matrix.os}}"
-        echo "step 2 - Node version: ${{matrix.nodejs}}"
+        echo "Hello World"
+
+  deploy-staging:
+    name: 'Deploy To Staging'
+
+    needs:
+      - deploy-dev
+
+    runs-on: 'ubuntu-latest'
+
+    steps:
+    - name: Say Hello World 1
+      shell: bash
+      run: |
+        echo "Hello World"
+
+  deploy-prod:
+    name: 'Deploy To Prod'
+
+    needs:
+      - deploy-staging
+
+    runs-on: 'ubuntu-latest'
+
+    steps:
+    - name: Say Hello World 1
+      shell: bash
+      run: |
+        echo "Hello World"
 
 
+# 잡은 병렬적 실행, 스텝은 순차적 실행. 스텝은 앞 스텝이 실패하면 다음 스텝도 실행 X
 # echo "GLOBAL: $GLOBAL_LEVEL" : 배시쉘 문법
-# echo "JOB 1: ${{env.JOB_LEVEL_1}}" : 깃허브 액션 문법
+# echo "JOB 1: ${{env.JOB_LEVEL_1}}" : 깃허브 액션 문법(변수에 접근하는?)
 # 매트릭스를 여러 개 줌으로써 서로 다른 환경에서의 워크플로우들을 모조리 싹 가능
+# if: matrix.os == 'windows-latest' : os가 윈도우일때만 이 스텝을 돌린다! &&로 다른 조건도 연결 가능
+# if: fail() : 앞단계 스텝이 실패했다면 실행해라. 즉 일반적인 if는 if: success()가 암묵적으로 있는 것임
+
+# strategy: # 나는 운영체제를 이 3가지를 돌리고 싶다
+#       matrix:
+#         os: ['ubuntu-latest', 'windows-latest', 'macos-latest']
+#         nodejs: ['16',  '18']
+
+
+# 잡들은 기본적으로 병렬 실행, but needs를 줌으로써 순서를 줄 수 있음
+# needs:
+#  - deploy-dev -> deploy-dev라는 잡이 끝나야 난 돌 수 있다.라는 뜻
