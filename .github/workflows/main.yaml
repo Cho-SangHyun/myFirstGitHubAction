@@ -2,9 +2,6 @@ name: 'SWM'
 
 on: push
 
-env:
-  GLOBAL_LEVEL: "GLOBAL VALUE"
-
 jobs: # 빌드서버를 제공. job 하나하나가 빌드서버 하나하나임. 디폴트는 순차실행이 아니라 병렬적 실행
   build-test:
     name: 'Build & Test'
