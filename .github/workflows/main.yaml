@@ -15,13 +15,13 @@ jobs: # 빌드서버를 제공. job 하나하나가 빌드서버 하나하나임
     - name: Send a message to Webex Space
       shell: bash
       run: |
-        curl -X POST https://webexapis.com/v1/messages \
-          -H "Authorization: Barear ${{secrets.WEBEX_TOKEN}}" \
-          -H "Content-type: application/json" \
-          -d "{
-            'roomId': ${{secrents.WEBEX_ROOD_ID}},
-            'text': '메시지 from GITHUB ACTION'
-          }"
+        curl --location --request POST 'https://webexapis.com/v1/messages' \
+          --header "Authorization: Barear ${{secrets.WEBEX_TOKEN}}" \
+          --header "Content-type: application/json" \
+          -data-raw '{
+            "roomId": ${{secrents.WEBEX_ROOD_ID}},
+            "text": "메시지 from GITHUB ACTION"
+          }''
   
 
 
