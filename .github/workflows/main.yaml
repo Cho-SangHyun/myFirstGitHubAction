@@ -16,7 +16,7 @@ jobs: # 빌드서버를 제공. job 하나하나가 빌드서버 하나하나임
           --header "Authorization: Bearer ${{secrets.WEBEX_TOKEN}}" \
           --header "Content-type: application/json" \
           --data-raw '{
-            "roomId": "${{secrets.WEBEX_ROOD_ID}}"",
+            "roomId": "${{secrets.WEBEX_ROOD_ID}}",
             "text": "메시지 from GITHUB ACTION"
           }'
 
