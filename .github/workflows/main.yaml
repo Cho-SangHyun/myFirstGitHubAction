@@ -1,0 +1,48 @@
+name: 'SWM'
+
+# on: # ['push', 'pull_request'] 등으로도 작성 가능
+#   push:
+#     branches: # 특정 브랜치에 푸시가 일어났을 때만 한다
+#       - main
+#       - 'feature/*'
+#     paths: # 특정 경로에 푸시가 일어났을 때만 한다
+#       - 'src/*'
+#       - 'test/*'
+#   pull_request:
+#     branches:
+#       - main  
+
+on: push
+
+jobs: # 빌드서버를 제공. job 하나하나가 빌드서버 하나하나임. 디폴트는 순차실행이 아니라 병렬적 실행
+  first-job:
+    name: 'First Job'
+
+    runs-on: ubuntu-latest
+
+    steps: # 스텝들은 순서대로 실행됨
+    - name: Say Hello World 1
+      shell: bash
+      run: |
+        echo "Hello world from step 1"
+    
+    - name: Say Hello World 2
+      shell: bash
+      run: |
+        echo "Hello world from step 2"
+
+  second-job:
+    name: 'Second Job'
+
+    runs-on: ubuntu-latest
+
+    steps: # 스텝들은 순서대로 실행됨
+    - name: Say Hello World 1
+      shell: bash
+      run: |
+        echo "Hello world from step 1"
+    
+    - name: Say Hello World 2
+      shell: bash
+      run: |
+        echo "Hello world from step 2"
