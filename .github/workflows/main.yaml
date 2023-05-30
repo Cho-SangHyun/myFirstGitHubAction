@@ -52,7 +52,7 @@ jobs: # 빌드서버를 제공. job 하나하나가 빌드서버 하나하나임
     runs-on: ubuntu-latest
 
     env:
-          JOB_LEVEL2: "JOB LEVEL VALUE 2"
+      JOB_LEVEL2: "JOB LEVEL VALUE 2"
 
     steps: # 스텝들은 순서대로 실행됨
     - name: Say Hello World 1
@@ -71,7 +71,7 @@ jobs: # 빌드서버를 제공. job 하나하나가 빌드서버 하나하나임
 
         echo "GLOBAL: $env:GLOBAL_LEVEL" # 파워쉘 문법
         echo "JOB 1: ${{env.JOB_LEVEL_1}}"
-        echo "JOB 2: ${{env.JOB_LEVEL_2}}"
+        echo "JOB 2: ${{env.JOB_LEVEL2}}"
         echo "STEP 1: ${{env.STEP_LEVEL_1}}"
         echo "STEP 2: ${{env.STEP_LEVEL_2}}"
         echo "STEP 3: ${{env.STEP_LEVEL_3}}"
