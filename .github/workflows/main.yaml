@@ -13,9 +13,9 @@ name: 'SWM'
 #       - main  
 
 on: push
-# 글로벌하게 환경변수 지정. job이나 step에서도 가능
-env: 
-  GLOBAL_LEVEL: 'GLOBAL ENV VALUE'
+
+env:
+  GLOBAL_LEVEL: "GLOBAL VALUE"
 
 jobs: # 빌드서버를 제공. job 하나하나가 빌드서버 하나하나임. 디폴트는 순차실행이 아니라 병렬적 실행
   first-job:
@@ -23,59 +23,38 @@ jobs: # 빌드서버를 제공. job 하나하나가 빌드서버 하나하나임
 
     runs-on: ubuntu-latest
 
-    env:
-      JOB_LEVEL_1: "JOB LEVEL VALUE 1"
-
     steps: # 스텝들은 순서대로 실행됨
     - name: Say Hello World 1
       shell: bash
-      env:
-        STEP_LEVEL_1: "STEP LEVEL VALUE 1"
       run: |
         echo "Hello world from step 1"
-        echo "GLOBAL: $GLOBAL_LEVEL"
-        echo "JOB 1: ${{env.JOB_LEVEL_1}}"
-        echo "JOB 2: ${{env.JOB_LEVEL_2}}"
-        echo "STEP 1: ${{env.STEP_LEVEL_1}}"
-        echo "STEP 2: ${{env.STEP_LEVEL_2}}"
+
+        randomValue="swm$(echo $RANDOM)"
+
+        echo "STEP_VALUE=$randomValue" >> $GITHUB_ENV
     
+
     - name: Say Hello World 2
-      shell: bash
-      env:
-        STEP_LEVEL_2: "STEP LEVEL VALUE 2"
+      shell: pwsh
       run: |
         echo "Hello world from step 2"
+        echo "STEP_VALUE: {{env.STEP_VALUE}}"
 
   second-job:
     name: 'Second Job'
 
     runs-on: ubuntu-latest
 
-    env:
-      JOB_LEVEL2: "JOB LEVEL VALUE 2"
-
     steps: # 스텝들은 순서대로 실행됨
     - name: Say Hello World 1
       shell: pwsh
-      env:
-        STEP_LEVEL_3: "STEP LEVEL VALUE 3"
       run: |
         echo "Hello world from step 1"
     
     - name: Say Hello World 2
       shell: bash
-      env:
-        STEP_LEVEL_4: "STEP LEVEL VALUE 4"
       run: |
         echo "Hello world from step 2"
-
-        echo "GLOBAL: $env:GLOBAL_LEVEL" # 파워쉘 문법
-        echo "JOB 1: ${{env.JOB_LEVEL_1}}"
-        echo "JOB 2: ${{env.JOB_LEVEL2}}"
-        echo "STEP 1: ${{env.STEP_LEVEL_1}}"
-        echo "STEP 2: ${{env.STEP_LEVEL_2}}"
-        echo "STEP 3: ${{env.STEP_LEVEL_3}}"
-        echo "STEP 4: ${{env.STEP_LEVEL_4}}"
 
 
 # echo "GLOBAL: $GLOBAL_LEVEL" : 배시쉘 문법
