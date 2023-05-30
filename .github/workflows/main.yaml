@@ -25,20 +25,21 @@ jobs: # 빌드서버를 제공. job 하나하나가 빌드서버 하나하나임
 
     steps: # 스텝들은 순서대로 실행됨
     - name: Say Hello World 1
+      id: helloWorld1
       shell: bash
       run: |
         echo "Hello world from step 1"
 
         randomValue="swm$(echo $RANDOM)"
 
-        echo "STEP_VALUE=$randomValue" >> $GITHUB_ENV
+        echo "STEP_VALUE=$randomValue" >> $GITHUB_OUTPUT
     
 
     - name: Say Hello World 2
       shell: pwsh
       run: |
         echo "Hello world from step 2"
-        echo "STEP_VALUE: ${{env.STEP_VALUE}}"
+        echo "STEP_VALUE: ${{steps.helloWorld1.outputs.STEP_VALUE}}"
 
   second-job:
     name: 'Second Job'
