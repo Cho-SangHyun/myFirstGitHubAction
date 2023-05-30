@@ -24,7 +24,7 @@ USAGE
 # Set up arguments
 webex_token=""
 webex_room_id=""
-body_text=""`
+body_text=""
 body_markdown=""
 
 if [[ $# -eq 0 ]]; then
