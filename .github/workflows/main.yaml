@@ -21,28 +21,17 @@ jobs: # 빌드서버를 제공. job 하나하나가 빌드서버 하나하나임
   first-job:
     name: 'First Job'
 
-    runs-on: ubuntu-latest
+    strategy: # 나는 운영체제를 이 3가지를 돌리고 싶다
+      matrix:
+        os: ['ubuntu-latest', 'windows-latest', 'macos-latest']
+
+    runs-on: ${{matrix.os}}
 
     steps: # 스텝들은 순서대로 실행됨
-    - name: Say Hello World 1
-      id: helloWorld1
+    - name: Say Hello World 1 - ${{matrix.os}}
       shell: bash
       run: |
-        echo "Hello world from step 1"
-
-        randomValue="swm$(echo $RANDOM)"
-
-        echo "::add-mask::$randomValue"
-
-        echo "STEP_VALUE=$randomValue" >> $GITHUB_OUTPUT
-    
-
-    - name: Say Hello World 2
-      shell: pwsh
-      run: |
-        echo "Hello world from step 2"
-        echo "STEP_VALUE: ${{steps.helloWorld1.outputs.STEP_VALUE}}"
-        echo "API_KEY: ${{secrets.API_KEY}}"
+        echo "OS: ${{matrix.os}}"
 
 
 # echo "GLOBAL: $GLOBAL_LEVEL" : 배시쉘 문법
