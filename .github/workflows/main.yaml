@@ -9,6 +9,9 @@ jobs: # 빌드서버를 제공. job 하나하나가 빌드서버 하나하나임
     runs-on: 'ubuntu-latest'
 
     steps:
+    - name: checkout codes
+      uses: actions/checkout@v3 
+
     - name: Send a message to Webex Space
       shell: bash
       run: |
@@ -27,7 +30,13 @@ jobs: # 빌드서버를 제공. job 하나하나가 빌드서버 하나하나임
         WEBEX_ROOM_ID: ${{ secrets.WEBEX_ROOD_ID }}
         MARKDOWN_MESSAGE: "**Hello, world! You just ran an action from ${{ github.repository }}.**"
 
-  
+    - name: Send message from custom action to Webex
+      uses: .github/actions@main
+      with: 
+        webexToken: ${{ secrets.WEBEX_TOKEN }}
+        webexRoomId: ${{ secrets.WEBEX_ROOD_ID }}
+        bodyText: "message from 깃허브액숀"
+        bodyMarkdown: "**Hello, world! You just ran an action from ${{ github.repository }}.**"
 
 
 
@@ -60,3 +69,6 @@ jobs: # 빌드서버를 제공. job 하나하나가 빌드서버 하나하나임
 #   pull_request:
 #     branches:
 #       - main
+
+
+# 체크아웃: 일단 내가 쓴 코드를 니가 받아라! 그래야 테스트를 하든 뭘 하든 한다.
