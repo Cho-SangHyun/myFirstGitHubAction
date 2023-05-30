@@ -24,6 +24,7 @@ jobs: # 빌드서버를 제공. job 하나하나가 빌드서버 하나하나임
     strategy: # 나는 운영체제를 이 3가지를 돌리고 싶다
       matrix:
         os: ['ubuntu-latest', 'windows-latest', 'macos-latest']
+        nodejs: ['16',  '18']
 
     runs-on: ${{matrix.os}}
 
@@ -32,6 +33,7 @@ jobs: # 빌드서버를 제공. job 하나하나가 빌드서버 하나하나임
       shell: bash
       run: |
         echo "OS: ${{matrix.os}}"
+        echo "Node version: ${{matrix.nodejs}}"
 
 
 # echo "GLOBAL: $GLOBAL_LEVEL" : 배시쉘 문법
