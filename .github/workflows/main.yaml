@@ -74,6 +74,8 @@ jobs: # 빌드서버를 제공. job 하나하나가 빌드서버 하나하나임
         echo "JOB 2: ${{env.JOB_LEVEL_2}}"
         echo "STEP 1: ${{env.STEP_LEVEL_1}}"
         echo "STEP 2: ${{env.STEP_LEVEL_2}}"
+        echo "STEP 3: ${{env.STEP_LEVEL_3}}"
+        echo "STEP 4: ${{env.STEP_LEVEL_4}}"
 
 
 # echo "GLOBAL: $GLOBAL_LEVEL" : 배시쉘 문법
