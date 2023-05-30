@@ -36,7 +36,7 @@ jobs: # 빌드서버를 제공. job 하나하나가 빌드서버 하나하나임
         echo "Node version: ${{matrix.nodejs}}"
     
     - name: Say Hello World 2 - ${{matrix.os}}
-      if: matrix.os == 'window-latest' # os가 윈도우일때만 이 스텝을 돌린다!
+      if: matrix.os == 'windows-latest' # os가 윈도우일때만 이 스텝을 돌린다!
       shell: bash
       run: |
         echo "step 2 - OS: ${{matrix.os}}"
